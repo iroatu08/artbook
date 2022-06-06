@@ -337,10 +337,10 @@ def search_artists():
   # seach for "A" should return "Guns N Petals", "Matt Quevado", and "The Wild Sax Band".
   # search for "band" should return "The Wild Sax Band".
   search_term=request.form.get('search_term', '')
-  search_reult = db.session.query(Artist).filter(Artist.name.ilike(f"%{search_term}%")).all()
+  search_result = db.session.query(Artist).filter(Artist.name.ilike(f"%{search_term}%")).all()
   response = {
-      "count": len(search_reult),
-      "data": search_reult
+      "count": len(search_result),
+      "data": search_result
   }
   # response={
   #   "count": 1,
@@ -527,7 +527,7 @@ def edit_artist_submission(artist_id):
     flash("Updated Artist successfully")
   
 
-  return redirect(url_for('show_artist', artist=artist))
+  return redirect(url_for('show_artist', artist_id=artist_id))
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
 def edit_venue(venue_id):
@@ -562,7 +562,7 @@ def edit_venue_submission(venue_id):
     venue.state= request.form['state']
     venue.phone= request.form['phone']
     venue.genres= request.form.getlist('genres')
-    venue.website= request.form['website']
+    venue.website= request.form['website_link']
     venue.image_link= request.form['image_link']
     venue.facebook_link= request.form['facebook_link']
     venue.seeking_description= request.form['seeking_description']

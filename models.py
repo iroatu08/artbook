@@ -69,11 +69,10 @@ class Artist(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=True)
     shows = db.relationship("Show", backref="artist", lazy=True, cascade="all, delete-orphan")
     
-    def __init__(self, name, city, state, address, phone, image_link, facebook_link, genres, website_link, seeking_venue, seeking_description ):
+    def __init__(self, name, city, state, phone, image_link, facebook_link, genres, website_link, seeking_venue, seeking_description ):
       self.name = name
       self.city = city
       self.state = state
-      self.address = address
       self.phone = phone
       self.image_link = image_link
       self.facebook_link = facebook_link
@@ -96,15 +95,9 @@ class Show(db.Model):
   artist_id = db.Column(db.Integer, db.ForeignKey("Artist.id"), nullable=False)
   venue_id = db.Column(db.Integer, db.ForeignKey("Venue.id"), nullable=False)
   start_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  
-  def __init__(self, artist_id, venue_id, start_time, ):
-      self.artist_id = artist_id
-      self.venue_id = venue_id 
-      self.start_time = start_time
-     
-      
-      def ___repr__(self):
-        return f"{self.artist_id}:{self.venue_id}:{self.start_time}"
+         
+  def ___repr__(self):
+      return f"<Show: {self.id}, artist_id:{self.artist_id},venue_id:{self.venue_id}, start_time:{self.start_time}>"
 
   
  
