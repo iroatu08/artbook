@@ -34,10 +34,22 @@ class Venue(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow,nullable=True)
     shows = db.relationship("Show", backref="venue", lazy=True, cascade="all, delete-orphan")
     
-    
-    def __repr__(self):
-      return f'<Venue: {self.id}, name: {self.name}, city: {self.city}, state: {self.state}, address: {self.address}, phone: {self.phone}, image_link: {self.image_link}, facebook_link: {self.facebook_link}, website_link: {self.website_link}, genres: {self.genres}, seeking_talent: {self.seeking_talent} seeking_description:{self.seeking_description}>'
-
+    def __init__(self, name, city, state, address, phone, image_link, facebook_link, genres, website_link, seeking_talent, seeking_description ):
+      self.name = name
+      self.city = city
+      self.state = state
+      self.address = address
+      self.phone = phone
+      self.image_link = image_link
+      self.facebook_link = facebook_link
+      self.genres = genres
+      self.website_link = website_link
+      self.seeking_talent = seeking_talent
+      self.seeking_description = seeking_description
+      
+      def ___repr__(self):
+        return f"{self.name}"
+      
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
@@ -57,8 +69,22 @@ class Artist(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=True)
     shows = db.relationship("Show", backref="artist", lazy=True, cascade="all, delete-orphan")
     
-    def __repr__(self):
-      return f'<Artist: {self.id}, name: {self.name}, city: {self.city}, state: {self.state}, phone: {self.phone}, image_link: {self.image_link}, facebook_link: {self.facebook_link}, website_link: {self.website_link}, genres: {self.genres}, seeking_venue: {self.seeking_venue} seeking_description:{self.seeking_description}>'
+    def __init__(self, name, city, state, address, phone, image_link, facebook_link, genres, website_link, seeking_venue, seeking_description ):
+      self.name = name
+      self.city = city
+      self.state = state
+      self.address = address
+      self.phone = phone
+      self.image_link = image_link
+      self.facebook_link = facebook_link
+      self.genres = genres
+      self.website_link = website_link
+      self.seeking_venue = seeking_venue
+      self.seeking_description = seeking_description
+      
+      def ___repr__(self):
+        return f"{self.name}"
+
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
@@ -71,6 +97,14 @@ class Show(db.Model):
   venue_id = db.Column(db.Integer, db.ForeignKey("Venue.id"), nullable=False)
   start_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
   
-  def __repr__(self):
-    return f"<Show id={self.id} artist={self.artist_id} venue={self.venue_id} start_time={self.start_time}>"
+  def __init__(self, artist_id, venue_id, start_time, ):
+      self.artist_id = artist_id
+      self.venue_id = venue_id 
+      self.start_time = start_time
+     
+      
+      def ___repr__(self):
+        return f"{self.artist_id}:{self.venue_id}:{self.start_time}"
 
+  
+ 

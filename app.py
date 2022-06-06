@@ -5,9 +5,8 @@
 import json
 import dateutil.parser
 import babel
-from flask import Flask, render_template, request, Response, flash, redirect, url_for
+from flask import render_template, request, Response, flash, redirect, url_for
 from flask_moment import Moment
-from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
@@ -112,6 +111,8 @@ def search_venues():
   }
   return render_template('pages/search_venues.html', results=response, search_term=request.form.get('search_term', ''))
 
+
+
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
   # shows the venue page with the given venue_id
@@ -149,7 +150,7 @@ def show_venue(venue_id):
     "city": venue.city,
     "state": venue.state,
     "phone": venue.phone,
-    "website_link": venue.website_link,
+    "website": venue.website_link,
     "facebook_link": venue.facebook_link,
     "seeking_talent": venue.seeking_talent,
     "seeking_description": venue.seeking_description,
@@ -288,14 +289,28 @@ def create_venue_submission():
   # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
     return render_template('pages/home.html')
 
-@app.route('/venues/<venue_id>', methods=['DELETE'])
+@app.route('/venues/<venue_id>/')
 def delete_venue(venue_id):
+  
+  delete_venue = Venue.query.get_or_404(venue_id)
+  try:
+      db.session.delete(delete_venue)
+      db.session.commit()
+      flash ('Venue has been deleted successfully')
+  except:
+    db.session.rollback()
+    print(sys.exc_info())
+    flash ('Venue was not deleted successfully')
+  finally:
+    db.session.close()
+    
+      
   # TODO: Complete this endpoint for taking a venue_id, and using
   # SQLAlchemy ORM to delete a record. Handle cases where the session commit could fail.
 
   # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
   # clicking that button delete it from the db then redirect the user to the homepage
-  return None
+    return render_template('pages/home.html')
 
 #  Artists
 #  ----------------------------------------------------------------
@@ -374,7 +389,7 @@ def show_artist(artist_id):
     "state": artist.state,
     "city": artist.city,
     "phone": artist.phone,
-    "website_link": artist.website_link,
+    "website": artist.website_link,
     "facebook_link": artist.facebook_link,
     "seeking_venue": artist.seeking_venue,
     "seeking_description": artist.seeking_description,
@@ -512,7 +527,7 @@ def edit_artist_submission(artist_id):
     flash("Updated Artist successfully")
   
 
-  return redirect(url_for('show_artist', artist_id=artist_id))
+  return redirect(url_for('show_artist', artist=artist))
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
 def edit_venue(venue_id):
@@ -547,7 +562,7 @@ def edit_venue_submission(venue_id):
     venue.state= request.form['state']
     venue.phone= request.form['phone']
     venue.genres= request.form.getlist('genres')
-    venue.website= request.form['website_link']
+    venue.website= request.form['website']
     venue.image_link= request.form['image_link']
     venue.facebook_link= request.form['facebook_link']
     venue.seeking_description= request.form['seeking_description']
