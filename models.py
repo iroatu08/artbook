@@ -85,9 +85,6 @@ class Artist(db.Model):
         return f"{self.name}"
 
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
-
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 class Show(db.Model):
   __tablename__ = 'Show'
   

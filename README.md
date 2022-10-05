@@ -1,11 +1,11 @@
-Fyyur
+artbook
 -----
 
 ## Introduction
 
-Fyyur is a musical venue and artist booking site that facilitates the discovery and bookings of shows between local performing artists and venues. This site lets you list new artists and venues, discover them, and list shows with artists as a venue owner.
+artbook is a musical venue and artist booking site that facilitates the discovery and bookings of shows between local performing artists and venues. This site lets you list new artists and venues, discover them, and list shows with artists as a venue owner.
 
-built out the data models to power the API endpoints for the Fyyur site by connecting to a PostgreSQL database for storing, querying, and creating information about artists and venues on Fyyur.
+built out the data models to power the API endpoints for the artbook site by connecting to a PostgreSQL database for storing, querying, and creating information about artists and venues on artbook.
 
 ## Overview
 
@@ -91,8 +91,8 @@ Highlight folders:
 ## Development Setup
 1. **Download the project starter code locally**
 ```
-git clone https://github.com/iroatu08/fyyur-app.git
-cd fyyur-app
+git clone https://github.com/iroatu08/artbook-app.git
+cd artbook-app
 ```
 
 2. **Create an empty repository in your Github account online. To change the remote repository path in your local repository, use the commands below:**

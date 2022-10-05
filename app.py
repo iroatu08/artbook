@@ -19,10 +19,6 @@ import sys
 
 moment = Moment(app)
 
-# TODO: connect to a local postgresql database
-
-
-
 #----------------------------------------------------------------------------#
 # Filters.
 #----------------------------------------------------------------------------#
@@ -207,9 +203,7 @@ def artists():
 
 @app.route('/artists/search', methods=['POST'])
 def search_artists():
-  # search on artists with partial string search. Ensure it is case-insensitive.
-  # seach for "A" should return "Guns N Petals", "Matt Quevado", and "The Wild Sax Band".
-  # search for "band" should return "The Wild Sax Band".
+
   search_term=request.form.get('search_term', '')
   search_result = db.session.query(Artist).filter(Artist.name.like(f"%{search_term}%")).all()
   response = {
@@ -220,8 +214,6 @@ def search_artists():
 
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
-  # shows the artist page with the given artist_id
-  # replace with real artist data from the artist table, using artist_id
   artist = Artist.query.get_or_404(artist_id)
   
   upcoming_shows_details = db.session.query(Show).join(Venue).filter(Show.artist_id == artist_id).filter(Show.start_time >= datetime.now()).all()
